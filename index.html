@@ -1,244 +1,895 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#0b0f1a">
-<title>MTA Connect • Portal Oficial</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#070a14" />
+  <title>MTA Connect • Portal Oficial</title>
 
-<style>
-:root{
-  --bg:#070a14;
-  --card:rgba(255,255,255,.07);
-  --border:rgba(255,255,255,.14);
-  --text:#e5e7eb;
-  --muted:#9ca3af;
-  --purple:#7c3aed;
-  --cyan:#22d3ee;
-  --blue:#60a5fa;
-  --green:#22c55e;
-}
+  <style>
+    :root{
+      --bg0:#050714;
+      --bg1:#0b0f1a;
+      --glass: rgba(255,255,255,.08);
+      --glass2: rgba(255,255,255,.04);
+      --border: rgba(255,255,255,.14);
+      --text:#eaf0ff;
+      --muted:#a6b0c3;
+      --shadow: rgba(0,0,0,.45);
 
-*{box-sizing:border-box}
-html,body{height:100%}
-body{
-  margin:0;
-  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;
-  background:
-    radial-gradient(900px 500px at 10% 10%, rgba(124,58,237,.35), transparent 60%),
-    radial-gradient(900px 500px at 90% 20%, rgba(34,211,238,.25), transparent 60%),
-    linear-gradient(180deg,#05070f,#0b0f1a);
-  color:var(--text);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  overflow:hidden;
-}
+      --p:#7c3aed;
+      --c:#22d3ee;
+      --b:#60a5fa;
+      --g:#22c55e;
+      --y:#fbbf24;
+      --r:#fb7185;
 
-/* partículas */
-.orb{
-  position:absolute;
-  width:520px;height:520px;
-  border-radius:50%;
-  filter:blur(30px);
-  opacity:.25;
-  animation:float 10s ease-in-out infinite;
-}
-.orb.p{background:var(--purple);top:-200px;left:-200px}
-.orb.c{background:var(--cyan);top:30%;right:-250px;animation-duration:12s}
-.orb.b{background:var(--blue);bottom:-250px;left:25%;animation-duration:14s}
+      --radius: 24px;
+    }
 
-@keyframes float{
-  0%,100%{transform:translate(0,0)}
-  50%{transform:translate(30px,-20px)}
-}
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      color:var(--text);
+      background:
+        radial-gradient(900px 520px at 10% 10%, rgba(124,58,237,.35), transparent 60%),
+        radial-gradient(900px 520px at 90% 20%, rgba(34,211,238,.25), transparent 60%),
+        radial-gradient(900px 520px at 40% 90%, rgba(96,165,250,.18), transparent 60%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+      overflow:hidden;
+      display:grid;
+      place-items:center;
+    }
 
-/* card */
-.card{
-  position:relative;
-  width:min(520px,92%);
-  background:linear-gradient(180deg,var(--card),rgba(255,255,255,.03));
-  border:1px solid var(--border);
-  border-radius:22px;
-  padding:26px;
-  backdrop-filter:blur(14px);
-  box-shadow:0 30px 80px rgba(0,0,0,.45);
-  animation:fadeIn .8s ease;
-}
+    /* ====== FX BACKGROUND ====== */
+    .grid{
+      position:absolute; inset:0;
+      background:
+        linear-gradient(to right, rgba(255,255,255,.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,.04) 1px, transparent 1px);
+      background-size: 44px 44px;
+      mask-image: radial-gradient(circle at 50% 35%, black 0 45%, transparent 70%);
+      opacity:.35;
+      pointer-events:none;
+      transform: translateZ(0);
+    }
 
-@keyframes fadeIn{
-  from{opacity:0;transform:translateY(20px)}
-  to{opacity:1;transform:translateY(0)}
-}
+    .orb{
+      position:absolute;
+      width:560px; height:560px;
+      border-radius:999px;
+      filter: blur(34px);
+      opacity:.24;
+      animation: float 12s ease-in-out infinite;
+      pointer-events:none;
+      transform: translateZ(0);
+    }
+    .orb.p{ background: var(--p); top:-220px; left:-220px; }
+    .orb.c{ background: var(--c); right:-280px; top:24%; animation-duration:14s; }
+    .orb.b{ background: var(--b); left:22%; bottom:-280px; animation-duration:16s; }
 
-.logo{
-  width:52px;height:52px;
-  border-radius:16px;
-  background:
-    radial-gradient(circle at 30% 30%,var(--cyan),transparent 55%),
-    radial-gradient(circle at 70% 60%,var(--purple),transparent 55%);
-  border:1px solid rgba(255,255,255,.2);
-  margin-bottom:14px;
-}
+    @keyframes float{
+      0%,100%{ transform: translate(0,0) scale(1); }
+      50%{ transform: translate(28px,-20px) scale(1.03); }
+    }
 
-h1{
-  margin:0;
-  font-size:26px;
-  letter-spacing:.3px;
-}
+    /* particles */
+    .stars{
+      position:absolute; inset:0;
+      pointer-events:none;
+      opacity:.55;
+      background-image:
+        radial-gradient(2px 2px at 20% 30%, rgba(255,255,255,.55) 50%, transparent 55%),
+        radial-gradient(1px 1px at 70% 40%, rgba(255,255,255,.45) 50%, transparent 55%),
+        radial-gradient(1px 1px at 40% 70%, rgba(255,255,255,.35) 50%, transparent 55%),
+        radial-gradient(2px 2px at 85% 75%, rgba(255,255,255,.4) 50%, transparent 55%),
+        radial-gradient(1px 1px at 10% 80%, rgba(255,255,255,.3) 50%, transparent 55%);
+      filter: blur(.15px);
+      animation: twinkle 6s ease-in-out infinite;
+    }
+    @keyframes twinkle{
+      0%,100%{ opacity:.45; transform: translateY(0); }
+      50%{ opacity:.7; transform: translateY(-2px); }
+    }
 
-p{
-  margin:8px 0 18px;
-  color:var(--muted);
-  font-size:14px;
-}
+    /* ====== CARD ====== */
+    .wrap{
+      width: min(560px, 92vw);
+      padding: 12px;
+      perspective: 900px;
+    }
 
-.server{
-  background:rgba(0,0,0,.35);
-  border:1px solid var(--border);
-  border-radius:14px;
-  padding:12px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  margin-bottom:16px;
-}
+    .card{
+      position:relative;
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, var(--glass), var(--glass2));
+      border: 1px solid var(--border);
+      box-shadow: 0 30px 85px var(--shadow);
+      backdrop-filter: blur(16px);
+      overflow:hidden;
+      transform-style: preserve-3d;
+      animation: pop .9s cubic-bezier(.2,.9,.2,1) both;
+    }
+    @keyframes pop{
+      from{ opacity:0; transform: translateY(18px) scale(.98); }
+      to{ opacity:1; transform: translateY(0) scale(1); }
+    }
 
-.server span{
-  font-family:monospace;
-  font-size:14px;
-}
+    .shine{
+      position:absolute; inset:-2px;
+      background: radial-gradient(520px 260px at var(--mx,50%) var(--my,20%), rgba(255,255,255,.16), transparent 55%);
+      pointer-events:none;
+      opacity:.9;
+      mix-blend-mode: screen;
+    }
 
-.copy{
-  background:none;
-  border:1px solid var(--border);
-  color:var(--text);
-  padding:6px 10px;
-  border-radius:10px;
-  cursor:pointer;
-}
-.copy:hover{background:rgba(255,255,255,.08)}
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding: 18px 18px 0 18px;
+    }
 
-.actions{
-  display:grid;
-  gap:12px;
-}
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      min-width:0;
+    }
 
-.btn{
-  padding:14px;
-  border-radius:14px;
-  border:none;
-  cursor:pointer;
-  font-size:16px;
-  font-weight:600;
-  background:linear-gradient(135deg,var(--purple),var(--cyan));
-  color:#fff;
-  box-shadow:0 10px 30px rgba(124,58,237,.45);
-  transition:.2s;
-}
-.btn:hover{transform:translateY(-2px);filter:brightness(1.05)}
-.btn.alt{
-  background:transparent;
-  border:1px solid var(--border);
-  color:var(--text);
-  box-shadow:none;
-}
+    .logo{
+      width:54px; height:54px;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.22);
+      background:
+        radial-gradient(circle at 25% 30%, var(--c), transparent 55%),
+        radial-gradient(circle at 70% 65%, var(--p), transparent 55%),
+        radial-gradient(circle at 40% 80%, rgba(96,165,250,.55), transparent 58%);
+      box-shadow: 0 0 0 8px rgba(124,58,237,.10);
+    }
 
-.status{
-  margin-top:14px;
-  font-size:13px;
-  color:var(--muted);
-  display:flex;
-  align-items:center;
-  gap:8px;
-}
+    .tag{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
 
-.dot{
-  width:8px;height:8px;
-  border-radius:50%;
-  background:var(--green);
-  box-shadow:0 0 0 6px rgba(34,197,94,.18);
-}
+    .pill{
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(0,0,0,.28);
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      color: var(--muted);
+      display:flex;
+      align-items:center;
+      gap:8px;
+      user-select:none;
+    }
+    .pill b{ color: var(--text); font-weight:700; }
 
-.toast{
-  position:fixed;
-  bottom:20px;
-  left:50%;
-  transform:translateX(-50%);
-  background:#111827;
-  border:1px solid var(--border);
-  padding:10px 14px;
-  border-radius:12px;
-  opacity:0;
-  pointer-events:none;
-  transition:.3s;
-}
-.toast.show{opacity:1}
+    .content{
+      padding: 14px 18px 18px 18px;
+    }
 
-footer{
-  margin-top:16px;
-  text-align:center;
-  font-size:12px;
-  color:var(--muted);
-}
-</style>
+    h1{
+      margin: 8px 0 0;
+      font-size: 28px;
+      letter-spacing: .2px;
+      line-height: 1.15;
+    }
+
+    .subtitle{
+      margin: 10px 0 18px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    /* server box */
+    .server{
+      display:flex;
+      gap:10px;
+      align-items:stretch;
+      background: rgba(0,0,0,.35);
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 16px;
+      padding: 12px;
+      margin: 14px 0 14px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .server::before{
+      content:"";
+      position:absolute; inset:-1px;
+      background: linear-gradient(90deg, rgba(124,58,237,.22), rgba(34,211,238,.18), rgba(96,165,250,.18));
+      opacity:.35;
+      filter: blur(18px);
+      pointer-events:none;
+    }
+
+    .serverMain{
+      flex:1;
+      min-width:0;
+      position:relative;
+    }
+
+    .label{
+      font-size:12px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .mono{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 14px;
+      color: var(--text);
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      align-items:center;
+    }
+
+    .mono code{
+      padding: 6px 10px;
+      border:1px solid rgba(255,255,255,.14);
+      border-radius: 12px;
+      background: rgba(255,255,255,.06);
+    }
+
+    .miniBtns{
+      display:flex;
+      gap:10px;
+      position:relative;
+    }
+
+    .mini{
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 14px;
+      cursor:pointer;
+      font-weight:700;
+      font-size:13px;
+      transition: .18s ease;
+      display:flex;
+      align-items:center;
+      gap:8px;
+      white-space:nowrap;
+      user-select:none;
+    }
+    .mini:hover{ transform: translateY(-1px); background: rgba(255,255,255,.10); }
+    .mini:active{ transform: translateY(0); }
+
+    /* actions */
+    .actions{
+      display:grid;
+      gap:12px;
+      margin-top: 10px;
+    }
+
+    .btn{
+      border:none;
+      cursor:pointer;
+      border-radius: 16px;
+      padding: 14px 16px;
+      font-weight: 800;
+      font-size: 16px;
+      color:#fff;
+      transition: .18s ease;
+      position:relative;
+      overflow:hidden;
+      user-select:none;
+    }
+
+    .btn.primary{
+      background: linear-gradient(135deg, var(--p), var(--c));
+      box-shadow: 0 14px 40px rgba(124,58,237,.35);
+    }
+
+    .btn.secondary{
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.16);
+      box-shadow:none;
+      color: var(--text);
+      font-weight: 750;
+    }
+
+    .btn:hover{ transform: translateY(-2px); filter: brightness(1.05); }
+    .btn:active{ transform: translateY(0); }
+
+    .btnGlow{
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background: radial-gradient(circle at var(--bx,30%) var(--by,30%), rgba(255,255,255,.35), transparent 50%);
+      opacity:.55;
+      transform: translateZ(0);
+      pointer-events:none;
+      mix-blend-mode: screen;
+      transition: .2s ease;
+    }
+
+    .row{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+    .row .btn{ flex:1; min-width: 200px; }
+
+    /* status */
+    .status{
+      margin-top: 14px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+
+    .leftStatus{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .dot{
+      width:10px; height:10px;
+      border-radius:50%;
+      background: var(--g);
+      box-shadow: 0 0 0 7px rgba(34,197,94,.18);
+      position:relative;
+    }
+    .dot::after{
+      content:"";
+      position:absolute; inset:-6px;
+      border-radius:50%;
+      border:1px solid rgba(34,197,94,.18);
+      animation: pulse 1.4s ease-in-out infinite;
+    }
+    @keyframes pulse{
+      0%,100%{ transform: scale(.9); opacity:.6; }
+      50%{ transform: scale(1.15); opacity:.15; }
+    }
+
+    .rightStatus{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      font-size:12px;
+      color: var(--muted);
+      user-select:none;
+    }
+
+    .kbd{
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(0,0,0,.25);
+      padding: 5px 8px;
+      border-radius: 10px;
+      font-family: ui-monospace, monospace;
+      color: var(--text);
+      font-size: 12px;
+    }
+
+    footer{
+      margin-top: 14px;
+      text-align:center;
+      font-size: 12px;
+      color: rgba(166,176,195,.9);
+    }
+
+    /* ====== LOADER ====== */
+    .loader{
+      margin-top: 14px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.25);
+      border-radius: 16px;
+      padding: 12px;
+      display:none;
+      gap:10px;
+      align-items:center;
+    }
+
+    .loader.show{ display:flex; }
+    .bar{
+      flex:1;
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.08);
+      overflow:hidden;
+      position:relative;
+    }
+    .bar > i{
+      display:block;
+      height:100%;
+      width: 0%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--p), var(--c), var(--b));
+      transition: width .18s ease;
+    }
+    .pct{
+      min-width: 48px;
+      text-align:right;
+      font-family: ui-monospace, monospace;
+      font-size: 12px;
+      color: var(--text);
+    }
+
+    /* ====== TOAST ====== */
+    .toast{
+      position:fixed;
+      bottom: 22px;
+      left:50%;
+      transform: translateX(-50%) translateY(12px);
+      background: rgba(17,24,39,.9);
+      border:1px solid rgba(255,255,255,.16);
+      border-radius: 14px;
+      padding: 10px 14px;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      opacity:0;
+      pointer-events:none;
+      transition: .22s ease;
+      box-shadow: 0 18px 60px rgba(0,0,0,.45);
+      backdrop-filter: blur(10px);
+      max-width: min(560px, 92vw);
+    }
+    .toast.show{
+      opacity:1;
+      transform: translateX(-50%) translateY(0);
+    }
+    .toastIcon{
+      width: 28px; height: 28px;
+      border-radius: 10px;
+      display:grid;
+      place-items:center;
+      background: rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.14);
+      flex:0 0 auto;
+    }
+    .toastTxt{
+      font-size: 13px;
+      color: var(--text);
+      line-height: 1.35;
+    }
+
+    /* ====== MODAL HELP ====== */
+    .modal{
+      position:fixed;
+      inset:0;
+      display:none;
+      place-items:center;
+      background: rgba(0,0,0,.55);
+      backdrop-filter: blur(10px);
+      padding: 18px;
+    }
+    .modal.show{ display:grid; }
+
+    .modalCard{
+      width: min(620px, 96vw);
+      border-radius: 22px;
+      border:1px solid rgba(255,255,255,.16);
+      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
+      box-shadow: 0 35px 100px rgba(0,0,0,.55);
+      padding: 16px;
+    }
+
+    .modalHead{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom: 10px;
+    }
+    .modalTitle{
+      font-weight: 900;
+      letter-spacing:.2px;
+      font-size: 16px;
+    }
+    .close{
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      border-radius: 12px;
+      padding: 8px 10px;
+      cursor:pointer;
+      font-weight:800;
+    }
+
+    .steps{
+      display:grid;
+      gap:10px;
+      margin-top: 10px;
+    }
+    .step{
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.22);
+      border-radius: 16px;
+      padding: 12px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .step b{ color: var(--text); }
+    .warn{
+      color: rgba(255,255,255,.92);
+      border:1px solid rgba(251,191,36,.22);
+      background: rgba(251,191,36,.10);
+    }
+
+    /* mobile tweaks */
+    @media (max-width: 420px){
+      h1{ font-size: 24px; }
+      .pill{ font-size: 11px; }
+      .mini{ padding: 10px; }
+    }
+  </style>
 </head>
 
 <body>
-<div class="orb p"></div>
-<div class="orb c"></div>
-<div class="orb b"></div>
+  <div class="grid"></div>
+  <div class="stars"></div>
+  <div class="orb p"></div>
+  <div class="orb c"></div>
+  <div class="orb b"></div>
 
-<div class="card">
-  <div class="logo"></div>
+  <div class="wrap">
+    <div class="card" id="card">
+      <div class="shine" id="shine"></div>
 
-  <h1>Entrar no MTA</h1>
-  <p>Conexão rápida e automática. Um clique e você entra no servidor.</p>
+      <div class="topbar">
+        <div class="brand">
+          <div class="logo"></div>
+          <div style="min-width:0">
+            <div style="font-weight:900; letter-spacing:.3px;">MTA Connect</div>
+            <div style="font-size:12px; color:var(--muted); margin-top:2px;">Portal oficial • entrada rápida</div>
+          </div>
+        </div>
 
-  <div class="server">
-    <span id="ip">192.99.120.58:22003</span>
-    <button class="copy" onclick="copyIP()">Copiar IP</button>
+        <div class="tag">
+          <div class="pill"><span style="width:8px;height:8px;border-radius:50%;background:var(--g);box-shadow:0 0 0 6px rgba(34,197,94,.14)"></span><b>Online</b></div>
+          <div class="pill">Ping: <b id="ping">~</b></div>
+        </div>
+      </div>
+
+      <div class="content">
+        <h1>Entrar no servidor</h1>
+        <div class="subtitle">
+          Clique no botão e o navegador vai abrir o <b>MTA</b> direto no servidor.
+          Se o PC bloquear o protocolo <b>mtasa://</b>, eu te mostro como resolver.
+        </div>
+
+        <div class="server">
+          <div class="serverMain">
+            <div class="label">Endereço do servidor</div>
+            <div class="mono">
+              <code id="ipPure">192.99.120.58:22003</code>
+              <code id="ipLink">mtasa://192.99.120.58:22003</code>
+            </div>
+          </div>
+
+          <div class="miniBtns">
+            <button class="mini" id="copyBtn" title="Copiar IP">📋 Copiar</button>
+            <button class="mini" id="helpBtn" title="Ajuda se não abrir">🛟 Ajuda</button>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="btn primary" id="connectBtn">
+            <span class="btnGlow" aria-hidden="true"></span>
+            🚀 Abrir MTA e Conectar Agora
+          </button>
+
+          <div class="row">
+            <button class="btn secondary" id="retryBtn">
+              <span class="btnGlow" aria-hidden="true"></span>
+              🔁 Tentar novamente
+            </button>
+            <button class="btn secondary" id="copyLinkBtn">
+              <span class="btnGlow" aria-hidden="true"></span>
+              🔗 Copiar Link mtasa://
+            </button>
+          </div>
+        </div>
+
+        <div class="loader" id="loader">
+          <div style="font-size:12px; color:var(--muted); min-width:92px;">Conectando…</div>
+          <div class="bar"><i id="barFill"></i></div>
+          <div class="pct" id="pct">0%</div>
+        </div>
+
+        <div class="status">
+          <div class="leftStatus">
+            <div class="dot"></div>
+            <span id="statusText">Pronto • conexão preparada</span>
+          </div>
+
+          <div class="rightStatus" title="Atalhos">
+            <span class="kbd">Enter</span> Conectar
+            <span class="kbd">C</span> Copiar
+          </div>
+        </div>
+
+        <footer>
+          Dica: se não abrir, use <b>Ajuda</b> e copie o IP para colar no MTA.
+        </footer>
+      </div>
+    </div>
   </div>
 
-  <div class="actions">
-    <button class="btn" onclick="connect()">🚀 Abrir MTA e Conectar</button>
-    <button class="btn alt" onclick="connect()">Tentar novamente</button>
+  <div class="toast" id="toast">
+    <div class="toastIcon" id="toastIcon">✅</div>
+    <div class="toastTxt" id="toastTxt">OK</div>
   </div>
 
-  <div class="status">
-    <div class="dot"></div>
-    Servidor online • Conexão pronta
+  <div class="modal" id="modal">
+    <div class="modalCard">
+      <div class="modalHead">
+        <div class="modalTitle">Ajuda • quando o mtasa:// não abre</div>
+        <button class="close" id="closeModal">Fechar</button>
+      </div>
+
+      <div class="step warn">
+        ⚠️ <b>Chrome/Edge</b> às vezes bloqueia o protocolo e não abre nada. Isso é normal.
+        Faz assim:
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <b>1)</b> Clique em <b>Copiar</b> e abra o MTA manualmente.
+        </div>
+        <div class="step">
+          <b>2)</b> Dentro do MTA: <b>Quick Connect</b> → cole <b id="helpIp">192.99.120.58:22003</b> → conectar.
+        </div>
+        <div class="step">
+          <b>3)</b> Se aparecer um aviso do navegador perguntando abrir aplicativo, marque <b>“Sempre permitir”</b> e confirme.
+        </div>
+        <div class="step">
+          <b>4)</b> Se nada acontecer mesmo assim, reinicie o navegador e tente de novo (ou use outro navegador).
+        </div>
+      </div>
+    </div>
   </div>
 
-  <footer>
-    Portal oficial • MTA SA
-  </footer>
-</div>
+  <script>
+    // ===== CONFIG =====
+    const IP = "192.99.120.58:22003";
+    const LINK = `mtasa://${IP}`;
 
-<div class="toast" id="toast">IP copiado!</div>
+    // ===== ELEMENTS =====
+    const ipPure = document.getElementById("ipPure");
+    const ipLink = document.getElementById("ipLink");
+    const helpIp = document.getElementById("helpIp");
+    const statusText = document.getElementById("statusText");
+    const loader = document.getElementById("loader");
+    const barFill = document.getElementById("barFill");
+    const pct = document.getElementById("pct");
+    const pingEl = document.getElementById("ping");
 
-<script>
-const LINK = "mtasa://192.99.120.58:22003";
+    const connectBtn = document.getElementById("connectBtn");
+    const retryBtn = document.getElementById("retryBtn");
+    const copyBtn = document.getElementById("copyBtn");
+    const copyLinkBtn = document.getElementById("copyLinkBtn");
+    const helpBtn = document.getElementById("helpBtn");
 
-function connect(){
-  window.location.href = LINK;
-}
+    const toast = document.getElementById("toast");
+    const toastTxt = document.getElementById("toastTxt");
+    const toastIcon = document.getElementById("toastIcon");
 
-function copyIP(){
-  navigator.clipboard.writeText("mtasa://192.99.120.58:22003");
-  showToast("IP copiado!");
-}
+    const modal = document.getElementById("modal");
+    const closeModal = document.getElementById("closeModal");
 
-function showToast(msg){
-  const t = document.getElementById("toast");
-  t.textContent = msg;
-  t.classList.add("show");
-  setTimeout(()=>t.classList.remove("show"),1800);
-}
+    const card = document.getElementById("card");
+    const shine = document.getElementById("shine");
 
-// tentativa automática
-setTimeout(connect, 900);
-</script>
+    // ===== INIT TEXTS =====
+    ipPure.textContent = IP;
+    ipLink.textContent = LINK;
+    helpIp.textContent = IP;
+
+    // ===== NICE: fake ping animation (sem backend) =====
+    (function fakePing(){
+      let p = 24 + Math.floor(Math.random()*18);
+      pingEl.textContent = p + "ms";
+      setInterval(()=>{
+        const drift = (Math.random() * 10 - 5);
+        p = Math.max(12, Math.min(90, Math.round(p + drift)));
+        pingEl.textContent = p + "ms";
+      }, 1200);
+    })();
+
+    // ===== PARALLAX + SHINE FOLLOW =====
+    (function parallax(){
+      const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
+      window.addEventListener("mousemove", (e)=>{
+        const r = card.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width;
+        const y = (e.clientY - r.top) / r.height;
+
+        const rx = clamp((y - 0.5) * -8, -8, 8);
+        const ry = clamp((x - 0.5) * 10, -10, 10);
+        card.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg)`;
+
+        shine.style.setProperty("--mx", (x*100).toFixed(1) + "%");
+        shine.style.setProperty("--my", (y*100).toFixed(1) + "%");
+      });
+
+      window.addEventListener("mouseleave", ()=>{
+        card.style.transform = "rotateX(0deg) rotateY(0deg)";
+        shine.style.setProperty("--mx", "50%");
+        shine.style.setProperty("--my", "20%");
+      });
+    })();
+
+    // ===== BUTTON GLOW TRACK =====
+    function bindBtnGlow(btn){
+      const glow = btn.querySelector(".btnGlow");
+      if(!glow) return;
+      btn.addEventListener("mousemove", (e)=>{
+        const r = btn.getBoundingClientRect();
+        const x = ((e.clientX - r.left) / r.width) * 100;
+        const y = ((e.clientY - r.top) / r.height) * 100;
+        glow.style.setProperty("--bx", x.toFixed(1) + "%");
+        glow.style.setProperty("--by", y.toFixed(1) + "%");
+      });
+    }
+    [connectBtn, retryBtn, copyLinkBtn].forEach(bindBtnGlow);
+
+    // ===== TOAST =====
+    let toastTimer = null;
+    function showToast(msg, icon="✅"){
+      toastIcon.textContent = icon;
+      toastTxt.textContent = msg;
+      toast.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(()=>toast.classList.remove("show"), 1900);
+    }
+
+    // ===== CLIPBOARD =====
+    async function copyText(text, label="Copiado!"){
+      try{
+        await navigator.clipboard.writeText(text);
+        showToast(label, "📋");
+      }catch{
+        // fallback
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        ta.remove();
+        showToast(label + " (modo compatível)", "📋");
+      }
+    }
+
+    // ===== LOADER / PROGRESS =====
+    let progressTimer = null;
+    function startLoader(){
+      loader.classList.add("show");
+      statusText.textContent = "Tentando abrir o MTA…";
+      let value = 0;
+      barFill.style.width = "0%";
+      pct.textContent = "0%";
+      clearInterval(progressTimer);
+
+      progressTimer = setInterval(()=>{
+        // sobe rápido até 88% e fica esperando a resposta do “fallback”
+        const cap = 88;
+        const step = value < 30 ? 10 : value < 60 ? 7 : value < 80 ? 4 : 2;
+        value = Math.min(cap, value + step);
+        barFill.style.width = value + "%";
+        pct.textContent = value + "%";
+      }, 160);
+    }
+
+    function finishLoader(success=true){
+      clearInterval(progressTimer);
+      const end = success ? 100 : 96;
+      barFill.style.width = end + "%";
+      pct.textContent = end + "%";
+      setTimeout(()=>{
+        loader.classList.remove("show");
+      }, 420);
+    }
+
+    // ===== PROTOCOL OPEN with SMART FALLBACK =====
+    // Abertura por "mtasa://" pode ser bloqueada.
+    // Estratégia:
+    // 1) tenta abrir
+    // 2) se a aba não perdeu foco/visibilidade em pouco tempo, assume bloqueio e mostra ajuda
+    function openMTA(){
+      startLoader();
+
+      const start = Date.now();
+      let likelyOpened = false;
+
+      // Se o MTA abrir, normalmente a página perde foco/visibilidade.
+      const onHidden = () => { likelyOpened = true; };
+      document.addEventListener("visibilitychange", onHidden, { once:true });
+      window.addEventListener("blur", onHidden, { once:true });
+
+      // tentativa direta
+      window.location.href = LINK;
+
+      // fallback check
+      setTimeout(()=>{
+        const elapsed = Date.now() - start;
+
+        // se não houve evidência de abertura, mostramos ajuda
+        if(!likelyOpened){
+          finishLoader(false);
+          statusText.textContent = "Parece que o navegador bloqueou o mtasa://";
+          showToast("Se não abriu, use Ajuda e copie o IP.", "⚠️");
+          modal.classList.add("show");
+        }else{
+          finishLoader(true);
+          statusText.textContent = "Abrindo MTA… se não abrir, use Ajuda.";
+          showToast("Tentativa enviada ao MTA.", "🚀");
+        }
+
+        // limpa listeners (por segurança)
+        document.removeEventListener("visibilitychange", onHidden);
+        window.removeEventListener("blur", onHidden);
+      }, 1200);
+
+      // after a bit, update status anyway
+      setTimeout(()=>{
+        if(loader.classList.contains("show")) {
+          statusText.textContent = "Aguardando confirmação…";
+        }
+      }, 800);
+    }
+
+    // ===== MODAL =====
+    function openHelp(){
+      modal.classList.add("show");
+    }
+    function closeHelp(){
+      modal.classList.remove("show");
+    }
+
+    modal.addEventListener("click", (e)=>{
+      if(e.target === modal) closeHelp();
+    });
+    closeModal.addEventListener("click", closeHelp);
+
+    // ===== EVENTS =====
+    connectBtn.addEventListener("click", openMTA);
+    retryBtn.addEventListener("click", openMTA);
+
+    copyBtn.addEventListener("click", ()=> copyText(IP, "IP copiado!"));
+    copyLinkBtn.addEventListener("click", ()=> copyText(LINK, "Link mtasa:// copiado!"));
+
+    helpBtn.addEventListener("click", ()=> {
+      showToast("Guia rápido aberto.", "🛟");
+      openHelp();
+    });
+
+    // keyboard shortcuts
+    window.addEventListener("keydown", (e)=>{
+      const k = e.key.toLowerCase();
+      if(k === "enter") openMTA();
+      if(k === "c") copyText(IP, "IP copiado!");
+      if(k === "escape") closeHelp();
+    });
+
+    // micro: prevent weird drag select
+    document.addEventListener("dragstart", (e)=> e.preventDefault());
+
+    // auto-try (bem mais inteligente: tenta só 1 vez, depois ajuda)
+    setTimeout(()=> {
+      statusText.textContent = "Auto-conexão iniciando…";
+      openMTA();
+    }, 900);
+  </script>
 </body>
 </html>
