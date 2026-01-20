@@ -5,7 +5,7 @@ const Gamedig = require("gamedig");
 const app = express();
 app.use(cors());
 
-const HOST = "192.99.120.58";
+const HOST = "167.114.196.182";
 const PORT = 22003;
 
 // Cache pra não ficar consultando UDP a cada refresh
